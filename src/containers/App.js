@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import Scroll from '../components/Scroll'
 import CardList from '../components/CardList.js';
 import SearchBox from '../components/SearchBox';
+import ErrorBoundry from '../components/ErrorBoundry';
 import '../containers/App.css'
 
 class App extends Component {
@@ -38,7 +39,9 @@ class App extends Component {
             <h1 className='f1'>RoboFriends</h1>
             <SearchBox searchChange={this.onSearchChange} />
             <Scroll>
-            	<CardList robots={filtereRobots} />
+            	<ErrorBoundry>
+            		<CardList robots={filtereRobots} />
+            	</ErrorBoundry>
             </Scroll>
           </div>
         </Fragment>
