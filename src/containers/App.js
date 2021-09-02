@@ -7,16 +7,16 @@ import '../containers/App.css'
 
 const App = () => {
 
-	const [robots, setRobots] = useState([]);
-	const [searchfield, setSearchfield] = useState('');
-
-	useEffect(() => {
-		fetch('https://jsonplaceholder.typicode.com/users')
-			.then(response => response.json())
-			.then(users => setRobots(users))
-	},[])
-
-	const onSearchChange = (event) => {
+  const [robots, setRobots] = useState([]);
+  const [searchfield, setSearchfield] = useState('');
+  
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => setRobots(users))
+  },[])
+  
+  const onSearchChange = (event) => {
     setSearchfield(event.target.value)
   }
 
@@ -24,9 +24,9 @@ const App = () => {
     return robot.name.toLowerCase().includes(searchfield.toLowerCase());
   })
 
-	if (!robots.length) {
-	  return <h1>Loading</h1>;
-	} else {
+  if (!robots.length) {
+    return <h1>Loading</h1>;
+  } else {
     return (
       <Fragment>
         <div className='tc'>
