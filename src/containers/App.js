@@ -1,54 +1,46 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment,useState, useEffect } from 'react';
 import Scroll from '../components/Scroll'
 import CardList from '../components/CardList.js';
 import SearchBox from '../components/SearchBox';
 import ErrorBoundry from '../components/ErrorBoundry';
 import '../containers/App.css'
 
-class App extends Component {
+const App = () => {
 
-	constructor() {
-	  super();
-	  this.state = {
-	  	robots: [],
-	  	searchfield: ''
-	  }
-	}
+	const [robots, setRobots] = useState([]);
+	const [searchfield, setSearchfield] = useState('');
 
-	componentDidMount () {
+	useEffect(() => {
 		fetch('https://jsonplaceholder.typicode.com/users')
-		.then(response => response.json())
-		.then(users => this.setState({robots: users}));
-	}
+			.then(response => response.json())
+			.then(users => setRobots(users))
+	},[])
 
-	onSearchChange =  (event) => {
-	  this.setState({searchfield: event.target.value})
-	}
+	const onSearchChange = (event) => {
+    setSearchfield(event.target.value)
+  }
 
-	render() {
-	  const filtereRobots = this.state.robots.filter(robot => {
-	  	return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-	  })
+  const filteredRobots = robots.filter(robot =>{
+    return robot.name.toLowerCase().includes(searchfield.toLowerCase());
+  })
 
-	  if (!this.state.robots.length) {
-	  	return <h1>Loading</h1>;
-	  } else {
-      return (
-        <Fragment>
-          <div className='tc'>
-            <h1 className='f1'>RoboFriends</h1>
-            <SearchBox searchChange={this.onSearchChange} />
-            <Scroll>
-            	<ErrorBoundry>
-            		<CardList robots={filtereRobots} />
-            	</ErrorBoundry>
-            </Scroll>
-          </div>
-        </Fragment>
-      );				  	
-	  }
-
-	}
+	if (!robots.length) {
+	  return <h1>Loading</h1>;
+	} else {
+    return (
+      <Fragment>
+        <div className='tc'>
+          <h1 className='f1'>RoboFriends</h1>
+          <SearchBox searchChange={onSearchChange} />
+          <Scroll>
+          	<ErrorBoundry>
+          		<CardList robots={filteredRobots} />
+          	</ErrorBoundry>
+          </Scroll>
+        </div>
+      </Fragment>
+    );				  	
+   }
 
 }
 
